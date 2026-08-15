@@ -235,7 +235,7 @@ a {
   }
 }
 
-/* Community events (OOD-21) */
+/* Community events */
 
 .page-head {
   display: flex;
@@ -555,4 +555,58 @@ a {
 .error-page .btn-solid {
   display: inline-block;
   margin-top: 16px;
+}
+
+/* Event forms */
+
+.event-form-card {
+  max-width: 560px;
+}
+
+.event-form-card .page-sub {
+  margin-bottom: 20px;
+}
+
+.event-edit-panel {
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--color-border);
+}
+
+.event-edit-panel h2 {
+  margin: 0 0 12px;
+  font-size: 18px;
+}
+
+.edit-panel-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.btn-danger {
+  display: inline-block;
+  padding: 8px 16px;
+  background: var(--color-white);
+  border: 1px solid #b3402f;
+  border-radius: 6px;
+  color: #b3402f;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-danger:hover {
+  background: #faf0ee;
+}
+
+.event-form-card textarea,
+.event-edit-panel textarea {
+  width: 100%;
+  padding: 9px 11px;
+  font: inherit;
+  color: var(--color-ink);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  resize: vertical;
 }

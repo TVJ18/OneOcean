@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import eventData from '../data/events.js';
+import beachData from '../data/beaches.js';
 
 const router = Router();
 
@@ -51,12 +52,13 @@ router.get('/', async (req, res) => {
 // ==========================================
 // 2. GET /community/create (Show Host Event Form)
 // ==========================================
-router.get('/create', (req, res) => {
+router.get('/create', async (req, res) => {
   if (!req.session || !req.session.user) {
     return res.redirect('/login');
   }
 
-  return res.render('community/create', { title: 'Host an Event' });
+  const beaches = await beachData.getAllBeaches();
+  return res.render('community/create', { title: 'Host an Event', beaches: beaches });
 });
 
 // ==========================================
@@ -85,11 +87,13 @@ router.post('/create', async (req, res) => {
 
     return res.redirect(`/community/${newEvent._id}`);
   } catch (e) {
+    const beaches = await beachData.getAllBeaches();
     return res.status(400).render('community/create', {
       title: 'Host an Event',
       error: typeof e === 'string' ? e : 'Could not create event.',
       hasErrors: true,
-      eventInputs: req.body
+      eventInputs: req.body,
+      beaches: beaches
     });
   }
 });
@@ -102,7 +106,7 @@ router.get('/:id', async (req, res) => {
     const eventId = req.params.id;
     const event = await eventData.getEventById(eventId);
 
-    //pass session user + host/attending flags so the view can show the right RSVP state
+    //pass session user so the view knows RSVP/host state
     const sessionUser = req.session && req.session.user ? req.session.user : null;
     const userId = sessionUser ? sessionUser._id.toString() : null;
 
@@ -136,7 +140,7 @@ router.patch('/:id', async (req, res) => {
       return res.status(403).json({ error: 'You are not authorized to update this event.' });
     }
 
-    const updatedEvent = await eventData.updateEvent(eventId, req.body);
+    const updatedEvent = await eventData.patchEvent(eventId, req.body);
     return res.status(200).json(updatedEvent);
   } catch (e) {
     return res.status(400).json({ error: typeof e === 'string' ? e : 'Could not update event.' });
@@ -161,7 +165,7 @@ router.delete('/:id', async (req, res) => {
       return res.status(403).json({ error: 'You are not authorized to cancel this event.' });
     }
 
-    await eventData.deleteEvent(eventId);
+    await eventData.removeEvent(eventId);
     return res.status(200).json({ deleted: true, eventId: eventId });
   } catch (e) {
     return res.status(400).json({ error: typeof e === 'string' ? e : 'Could not cancel event.' });

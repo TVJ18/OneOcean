@@ -1,0 +1,85 @@
+<a class="back-link" href="/community">&larr; All events</a>
+
+<section class="auth-card event-form-card">
+  <h1>{{title}}</h1>
+  <p class="page-sub">Set up a public event other beachgoers can join.</p>
+
+  {{#if hasErrors}}
+    <p class="form-error-banner" role="alert">{{error}}</p>
+  {{/if}}
+
+  <form id="event-create-form" method="POST" action="/community/create" novalidate>
+    <div class="form-field">
+      <label for="eventName">Event name</label>
+      <input type="text" id="eventName" name="eventName" value="{{eventInputs.eventName}}" required />
+      <p class="field-hint">5&ndash;80 characters. Letters, hyphens, commas, apostrophes, and spaces only.</p>
+      <p class="field-error" data-error-for="eventName"></p>
+    </div>
+
+    <div class="form-row">
+      <div class="form-field">
+        <label for="beachId">Beach</label>
+        <select id="beachId" name="beachId" data-selected="{{eventInputs.beachId}}" required>
+          <option value="" disabled selected>Choose a beach&hellip;</option>
+          {{#each beaches}}
+            <option value="{{this._id}}">{{this.beachName}}</option>
+          {{/each}}
+        </select>
+        <p class="field-error" data-error-for="beachId"></p>
+      </div>
+      <div class="form-field">
+        <label for="eventType">Event type</label>
+        <select id="eventType" name="eventType" data-selected="{{eventInputs.eventType}}" required>
+          <option value="" disabled selected>Choose a type&hellip;</option>
+          <option value="Meet up">Meet up</option>
+          <option value="Beach Cleanup">Beach Cleanup</option>
+          <option value="Pinic">Picnic</option>
+          <option value="Barbeque">Barbeque</option>
+          <option value="Contest">Contest</option>
+          <option value="Fishing">Fishing</option>
+          <option value="Swimming">Swimming</option>
+          <option value="Volleyball">Volleyball</option>
+          <option value="Frisbee">Frisbee</option>
+          <option value="Football">Football</option>
+          <option value="Other">Other</option>
+        </select>
+        <p class="field-error" data-error-for="eventType"></p>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-field">
+        <label for="eventDate">Date</label>
+        <input type="date" id="eventDate" name="eventDate" data-current="{{eventInputs.eventDate}}" required />
+        <p class="field-error" data-error-for="eventDate"></p>
+      </div>
+      <div class="form-field">
+        <label for="startTime">Starts</label>
+        <input type="time" id="startTime" name="startTime" data-current="{{eventInputs.startTime}}" required />
+        <p class="field-error" data-error-for="startTime"></p>
+      </div>
+      <div class="form-field">
+        <label for="endTime">Ends</label>
+        <input type="time" id="endTime" name="endTime" data-current="{{eventInputs.endTime}}" required />
+        <p class="field-error" data-error-for="endTime"></p>
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label for="meetingLocation">Meeting spot</label>
+      <input type="text" id="meetingLocation" name="meetingLocation" value="{{eventInputs.meetingLocation}}" placeholder="To the right of the lifeguard tower" required />
+      <p class="field-hint">5&ndash;100 characters. Letters, hyphens, apostrophes, periods, and spaces only.</p>
+      <p class="field-error" data-error-for="meetingLocation"></p>
+    </div>
+
+    <div class="form-field">
+      <label for="additionalDetails">Additional details</label>
+      <textarea id="additionalDetails" name="additionalDetails" rows="4" required>{{eventInputs.additionalDetails}}</textarea>
+      <p class="field-error" data-error-for="additionalDetails"></p>
+    </div>
+
+    <button class="btn-solid btn-full" type="submit">Publish Event</button>
+  </form>
+</section>
+
+<script src="/js/event-form.js" defer></script>

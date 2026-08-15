@@ -34,6 +34,8 @@
 
     {{#if isHost}}
       <span class="event-host-note">You're hosting this event.</span>
+      <button class="btn-outline" type="button" id="edit-event-toggle">Edit Event</button>
+      <button class="btn-danger" type="button" id="cancel-event-btn" data-event-id="{{event._id}}">Cancel Event</button>
     {{else}}
       {{#if isAttending}}
         <span class="event-attending-note">You're going to this event.</span>
@@ -48,6 +50,73 @@
       {{/if}}
     {{/if}}
   </div>
+  {{#if isHost}}
+    <form id="event-edit-form" class="event-edit-panel" hidden data-event-id="{{event._id}}">
+      <h2>Edit event</h2>
+      <p class="form-error-banner" id="edit-error" role="alert" hidden></p>
+
+      <div class="form-field">
+        <label for="edit-eventName">Event name</label>
+        <input type="text" id="edit-eventName" name="eventName" value="{{event.eventName}}" required />
+        <p class="field-error" data-error-for="edit-eventName"></p>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="edit-eventType">Event type</label>
+          <select id="edit-eventType" name="eventType" data-selected="{{event.eventType}}" required>
+            <option value="Meet up">Meet up</option>
+            <option value="Beach Cleanup">Beach Cleanup</option>
+            <option value="Pinic">Picnic</option>
+            <option value="Barbeque">Barbeque</option>
+            <option value="Contest">Contest</option>
+            <option value="Fishing">Fishing</option>
+            <option value="Swimming">Swimming</option>
+            <option value="Volleyball">Volleyball</option>
+            <option value="Frisbee">Frisbee</option>
+            <option value="Football">Football</option>
+            <option value="Other">Other</option>
+          </select>
+          <p class="field-error" data-error-for="edit-eventType"></p>
+        </div>
+        <div class="form-field">
+          <label for="edit-eventDate">Date</label>
+          <input type="date" id="edit-eventDate" name="eventDate" data-current="{{event.eventDate}}" required />
+          <p class="field-error" data-error-for="edit-eventDate"></p>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="edit-startTime">Starts</label>
+          <input type="time" id="edit-startTime" name="startTime" data-current="{{event.startTime}}" required />
+          <p class="field-error" data-error-for="edit-startTime"></p>
+        </div>
+        <div class="form-field">
+          <label for="edit-endTime">Ends</label>
+          <input type="time" id="edit-endTime" name="endTime" data-current="{{event.endTime}}" required />
+          <p class="field-error" data-error-for="edit-endTime"></p>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="edit-meetingLocation">Meeting spot</label>
+        <input type="text" id="edit-meetingLocation" name="meetingLocation" value="{{event.meetingLocation}}" required />
+        <p class="field-error" data-error-for="edit-meetingLocation"></p>
+      </div>
+
+      <div class="form-field">
+        <label for="edit-additionalDetails">Additional details</label>
+        <textarea id="edit-additionalDetails" name="additionalDetails" rows="3" required>{{event.additionalDetails}}</textarea>
+        <p class="field-error" data-error-for="edit-additionalDetails"></p>
+      </div>
+
+      <div class="edit-panel-actions">
+        <button class="btn-solid" type="submit">Save Changes</button>
+        <button class="btn-outline" type="button" id="edit-event-close">Discard</button>
+      </div>
+    </form>
+  {{/if}}
 </article>
 
 <section class="event-comments">
@@ -79,3 +148,5 @@
     <p class="page-sub"><a href="/login">Log in</a> to join the conversation.</p>
   {{/if}}
 </section>
+
+<script src="/js/event-form.js" defer></script>
