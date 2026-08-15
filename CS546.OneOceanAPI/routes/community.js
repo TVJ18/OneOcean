@@ -102,9 +102,16 @@ router.get('/:id', async (req, res) => {
     const eventId = req.params.id;
     const event = await eventData.getEventById(eventId);
 
+    //pass session user + host/attending flags so the view can show the right RSVP state
+    const sessionUser = req.session && req.session.user ? req.session.user : null;
+    const userId = sessionUser ? sessionUser._id.toString() : null;
+
     return res.render('community/single', {
       title: event.eventName,
-      event: event
+      event: event,
+      user: sessionUser,
+      isHost: userId !== null && event.hostId.toString() === userId,
+      isAttending: userId !== null && Array.isArray(event.attendants) && event.attendants.some((a) => a.toString() === userId)
     });
   } catch (e) {
     return res.status(404).render('error', { error: 'Event not found.' });

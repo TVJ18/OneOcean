@@ -1,0 +1,72 @@
+<section class="page-head">
+  <div>
+    <h1>{{title}}</h1>
+    <p class="page-sub">See what's happening on the sand, or host your own event.</p>
+  </div>
+  <a class="btn-solid" href="/community/create">Host an Event</a>
+</section>
+
+<form id="event-filters" class="filter-bar" method="GET" action="/community">
+  <div class="filter-field">
+    <label for="filter-date">Date</label>
+    <input type="date" id="filter-date" name="date" data-current="{{filters.date}}" />
+  </div>
+
+  <div class="filter-field">
+    <label for="filter-startTime">Start time</label>
+    <input type="text" id="filter-startTime" name="startTime" value="{{filters.startTime}}" placeholder="e.g. 2:00PM" />
+  </div>
+
+  <div class="filter-field">
+    <label for="filter-type">Event type</label>
+    <select id="filter-type" name="type" data-selected="{{filters.type}}">
+      <option value="">All types</option>
+      <option value="Meet up">Meet up</option>
+      <option value="Beach Cleanup">Beach Cleanup</option>
+      <option value="Pinic">Picnic</option>
+      <option value="Barbeque">Barbeque</option>
+      <option value="Contest">Contest</option>
+      <option value="Fishing">Fishing</option>
+      <option value="Swimming">Swimming</option>
+      <option value="Volleyball">Volleyball</option>
+      <option value="Frisbee">Frisbee</option>
+      <option value="Football">Football</option>
+      <option value="Other">Other</option>
+    </select>
+  </div>
+
+  <div class="filter-field filter-field-narrow">
+    <label for="filter-minAttendance">Min. attendees</label>
+    <input type="number" id="filter-minAttendance" name="minAttendance" value="{{filters.minAttendance}}" min="0" />
+  </div>
+
+  <div class="filter-actions">
+    <button class="btn-solid" type="submit">Apply</button>
+    <a class="filter-clear" href="/community">Clear</a>
+  </div>
+</form>
+
+{{#if events.length}}
+  <ul class="event-grid">
+    {{#each events}}
+      <li class="event-card">
+        <div class="event-card-top">
+          <span class="event-chip">{{this.eventType}}</span>
+          <span class="event-count">{{this.attendants.length}} going</span>
+        </div>
+        <h2 class="event-card-title"><a href="/community/{{this._id}}">{{this.eventName}}</a></h2>
+        <p class="event-meta">{{this.eventDate}} &middot; {{this.startTime}}&ndash;{{this.endTime}}</p>
+        <p class="event-meta">Meet at: {{this.meetingLocation}}</p>
+        <p class="event-card-foot">{{this.EventComments.length}} comments</p>
+      </li>
+    {{/each}}
+  </ul>
+{{else}}
+  <div class="empty-state">
+    <p class="empty-title">No events found.</p>
+    <p class="page-sub">Try clearing the filters, or be the first to host one.</p>
+    <a class="btn-solid" href="/community/create">Host an Event</a>
+  </div>
+{{/if}}
+
+<script src="/js/community.js" defer></script>

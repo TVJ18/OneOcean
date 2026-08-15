@@ -1,0 +1,81 @@
+<a class="back-link" href="/community">&larr; All events</a>
+
+<article class="event-detail">
+  <div class="event-detail-head">
+    <span class="event-chip">{{event.eventType}}</span>
+    <h1>{{event.eventName}}</h1>
+  </div>
+
+  <dl class="event-detail-grid">
+    <div>
+      <dt>Date</dt>
+      <dd>{{event.eventDate}}</dd>
+    </div>
+    <div>
+      <dt>Time</dt>
+      <dd>{{event.startTime}} &ndash; {{event.endTime}}</dd>
+    </div>
+    <div>
+      <dt>Meeting spot</dt>
+      <dd>{{event.meetingLocation}}</dd>
+    </div>
+    <div>
+      <dt>Beach</dt>
+      <dd><a href="/beaches/{{event.beachId}}">View beach page</a></dd>
+    </div>
+  </dl>
+
+  {{#if event.additionalDetails}}
+    <p class="event-detail-notes">{{event.additionalDetails}}</p>
+  {{/if}}
+
+  <div class="event-detail-actions">
+    <span class="event-count-big">{{event.attendants.length}} going</span>
+
+    {{#if isHost}}
+      <span class="event-host-note">You're hosting this event.</span>
+    {{else}}
+      {{#if isAttending}}
+        <span class="event-attending-note">You're going to this event.</span>
+      {{else}}
+        {{#if user}}
+          <form method="POST" action="/community/{{event._id}}/attend">
+            <button class="btn-solid" type="submit">RSVP &mdash; I'm going</button>
+          </form>
+        {{else}}
+          <a class="btn-outline" href="/login">Log in to RSVP</a>
+        {{/if}}
+      {{/if}}
+    {{/if}}
+  </div>
+</article>
+
+<section class="event-comments">
+  <h2>Comments ({{event.EventComments.length}})</h2>
+
+  {{#if event.EventComments.length}}
+    <ul class="comment-list">
+      {{#each event.EventComments}}
+        <li class="comment">
+          <p class="comment-head">
+            <span class="comment-author">{{this.name}}</span>
+            <span class="comment-time">{{this.postTime}}</span>
+          </p>
+          <p class="comment-body">{{this.comment}}</p>
+        </li>
+      {{/each}}
+    </ul>
+  {{else}}
+    <p class="page-sub">No comments yet. Ask the host a question.</p>
+  {{/if}}
+
+  {{#if user}}
+    <form class="comment-form" method="POST" action="/community/{{event._id}}/comments">
+      <label for="comment">Add a comment</label>
+      <textarea id="comment" name="comment" rows="3" maxlength="500" required></textarea>
+      <button class="btn-solid" type="submit">Post Comment</button>
+    </form>
+  {{else}}
+    <p class="page-sub"><a href="/login">Log in</a> to join the conversation.</p>
+  {{/if}}
+</section>
