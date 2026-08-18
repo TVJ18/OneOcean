@@ -15,13 +15,20 @@
     <nav class="site-nav">
       <a href="/beaches">Find Beaches</a>
       <a href="/community">Community</a>
-      <a href="/bookmarks">Bookmarks</a>
-      <a href="/profile">Profile</a>
+      {{#if user}}
+        <a href="/bookmarks">Bookmarks</a>
+        <a href="/profile">Profile</a>
+      {{/if}}
     </nav>
 
     <div class="site-auth">
-      <a href="/login" class="btn-outline">Log In</a>
-      <a href="/signup" class="btn-solid">Sign Up</a>
+      {{#if user}}
+        <span class="site-user">Hi, {{user.firstName}}</span>
+        <a href="/logout" class="btn-outline">Log Out</a>
+      {{else}}
+        <a href="/login" class="btn-outline">Log In</a>
+        <a href="/signup" class="btn-solid">Sign Up</a>
+      {{/if}}
     </div>
   </header>
 

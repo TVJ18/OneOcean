@@ -1028,3 +1028,11 @@ a {
   border-radius: 6px;
   resize: vertical;
 }
+
+/* Session-aware nav */
+
+.site-user {
+  color: var(--color-ocean);
+  font-weight: 500;
+  white-space: nowrap;
+}
